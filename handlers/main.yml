@@ -1,0 +1,5 @@
+---
+- name: restart yum-cron
+  tags: yum-cron
+  service: name=yum-cron
+           state=restarted

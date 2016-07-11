@@ -1,0 +1,159 @@
+[commands]
+#  What kind of update to use:
+# default                            = yum upgrade
+# security                           = yum --security upgrade
+# security-severity:Critical         = yum --sec-severity=Critical upgrade
+# minimal                            = yum --bugfix update-minimal
+# minimal-security                   = yum --security update-minimal
+# minimal-security-severity:Critical =  --sec-severity=Critical update-minimal
+{% if yum_cron_hourly_commands_update_cmd is defined %}
+update_cmd = {{ yum_cron_hourly_commands_update_cmd }}
+{% else %}
+update_cmd = default
+{% endif %}
+
+# Whether a message should emitted when updates are available.
+{% if yum_cron_hourly_commands_update_messages is defined %}
+{%   if yum_cron_hourly_commands_update_messages %}
+update_messages = yes
+{%   else %}
+update_messages = no
+{%   endif %}
+{% else %}
+update_messages = no
+{% endif %}
+
+# Whether updates should be downloaded when they are available. Note
+# that updates_messages must also be yes for updates to be downloaded.
+{% if yum_cron_hourly_commands_download_updates is defined %}
+{%   if yum_cron_hourly_commands_download_updates %}
+download_updates = yes
+{%   else %}
+download_updates = no
+{%   endif %}
+{% else %}
+download_updates = no
+{% endif %}
+
+# Whether updates should be applied when they are available.  Note
+# that both update_messages and download_updates must also be yes for
+# the update to be applied
+{% if yum_cron_hourly_commands_apply_updates is defined %}
+{%   if yum_cron_hourly_commands_apply_updates %}
+apply_updates = yes
+{%   else %}
+apply_updates = no
+{%   endif %}
+{% else %}
+apply_updates = no
+{% endif %}
+
+# Maximum amout of time to randomly sleep, in minutes.  The program
+# will sleep for a random amount of time between 0 and random_sleep
+# minutes before running.  This is useful for e.g. staggering the
+# times that multiple systems will access update servers.  If
+# random_sleep is 0 or negative, the program will run immediately.
+{% if yum_cron_hourly_commands_random_sleep is defined %}
+random_sleep = {{ yum_cron_hourly_commands_random_sleep }}
+{% else %}
+random_sleep = 15
+{% endif %}
+
+
+[emitters]
+# Name to use for this system in messages that are emitted.  If
+# system_name is None, the hostname will be used.
+{% if yum_cron_hourly_emitters_system_name is defined %}
+system_name = {{ yum_cron_hourly_emitters_system_name }}
+{% else %}
+system_name = None
+{% endif %}
+
+# How to send messages.  Valid options are stdio and email.  If
+# emit_via includes stdio, messages will be sent to stdout; this is useful
+# to have cron send the messages.  If emit_via includes email, this
+# program will send email itself according to the configured options.
+# If emit_via is None or left blank, no messages will be sent.
+{% if yum_cron_hourly_emitters_emit_via is defined %}
+emit_via = {{ yum_cron_hourly_emitters_emit_via }}
+{% else %}
+emit_via = stdio
+{% endif %}
+
+# The width, in characters, that messages that are emitted should be
+# formatted to.
+{% if yum_cron_hourly_emitters_ouput_width is defined %}
+ouput_width = {{ yum_cron_hourly_emitters_ouput_width }}
+{% else %}
+ouput_width = 80
+{% endif %}
+
+
+[email]
+# The address to send email messages from.
+{% if yum_cron_hourly_email_email_from is defined %}
+email_from = {{ yum_cron_hourly_email_email_from }}
+{% else %}
+email_from = root
+{% endif %}
+
+# List of addresses to send messages to.
+{% if yum_cron_hourly_email_email_to is defined %}
+email_to = {{ yum_cron_hourly_email_email_to }}
+{% else %}
+email_to = root
+{% endif %}
+
+# Name of the host to connect to to send email messages.
+{% if yum_cron_hourly_email_email_host is defined %}
+email_host = {{ yum_cron_hourly_email_email_host }}
+{% else %}
+email_host = localhost
+{% endif %}
+
+
+[groups]
+# List of groups to update
+{% if yum_cron_hourly_groups_group_list is defined %}
+group_list = {{ yum_cron_hourly_groups_group_list }}
+{% else %}
+group_list = None
+{% endif %}
+
+# The types of group packages to install
+{% if yum_cron_hourly_groups_group_package_types is defined %}
+group_package_types = {{ yum_cron_hourly_groups_group_package_types|join(', ') }}
+{% else %}
+group_package_types = mandatory, default
+{% endif %}
+
+[base]
+# This section overrides yum.conf
+
+# Use this to filter Yum core messages
+# -4: critical
+# -3: critical+errors
+# -2: critical+errors+warnings (default)
+{% if yum_cron_hourly_base_debuglevel is defined %}
+debuglevel = {{ yum_cron_hourly_base_debuglevel }}
+{% else %}
+debuglevel = -2
+{% endif %}
+
+# skip_broken = True
+{% if yum_cron_hourly_base_mdpolicy is defined %}
+mdpolicy = {{ yum_cron_hourly_base_mdpolicy }}
+{% else %}
+mdpolicy = group:main
+{% endif %}
+
+# Uncomment to auto-import new gpg keys (dangerous)
+{% if yum_cron_hourly_base_assumeyes is defined %}
+{%   if yum_cron_hourly_base_assumeyes %}
+assumeyes = True
+{%   else %}
+assumeyes = False
+{%   endif %}
+{% else %}
+# assumeyes = True
+{% endif %}
