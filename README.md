@@ -23,7 +23,7 @@ Available variables are listed below, along with default values:
     yum_cron_email_email_host: localhost
     yum_cron_email_email_to: root
     yum_cron_emitters_emit_via: stdio
-    yum_cron_emitters_ouput_width: 80
+    yum_cron_emitters_output_width: 80
     yum_cron_emitters_system_name: None
     yum_cron_groups_group_list: None
     yum_cron_groups_group_package_types: [ 'mandatory', 'default' ]
@@ -38,7 +38,7 @@ Available variables are listed below, along with default values:
     yum_cron_hourly_email_email_host: localhost
     yum_cron_hourly_email_email_to: root
     yum_cron_hourly_emitters_emit_via: stdio
-    yum_cron_hourly_emitters_ouput_width: 80
+    yum_cron_hourly_emitters_output_width: 80
     yum_cron_hourly_emitters_system_name: None
     yum_cron_hourly_groups_group_list: None
     yum_cron_hourly_groups_group_package_types: [ 'mandatory', 'default' ]

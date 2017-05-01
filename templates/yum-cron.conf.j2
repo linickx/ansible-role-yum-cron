@@ -82,10 +82,10 @@ emit_via = stdio
 
 # The width, in characters, that messages that are emitted should be
 # formatted to.
-{% if yum_cron_emitters_ouput_width is defined %}
-ouput_width = {{ yum_cron_emitters_ouput_width }}
+{% if yum_cron_emitters_output_width is defined %}
+output_width = {{ yum_cron_emitters_output_width }}
 {% else %}
-ouput_width = 80
+output_width = 80
 {% endif %}
 
 
